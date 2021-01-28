@@ -12,11 +12,10 @@
         <result property="avatar" column="avatar"/>
     </resultMap>
 
-    <resultMap id="blog" type="com.gao.dto.BlogQuery">
+    <resultMap id="blog" type="com.gao.dto.QueryRequest">
         <id property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="updateTime" column="update_time"/>
-        <result property="recommend" column="recommend"/>
         <result property="typeId" column="type_id"/>
         <association property="type" javaType="com.gao.pojo.Type">
             <id property="id" column="id"/>
@@ -39,9 +38,9 @@
     <insert id="saveBlog" parameterType="com.gao.pojo.Blog">
         insert into blog.t_blog (id,title, content, first_picture, flag,
         views, appreciation, share_statement, commentabled,published,
-        recommend, create_time, update_time, type_id,tag_ids, user_id, description)
+         create_time, update_time, type_id,tag_ids, user_id, description)
         values (#{id},#{title},#{content},#{firstPicture},#{flag},#{views},#{appreciation},
-        #{shareStatement},#{commentabled},#{published},#{recommend},#{createTime},
+        #{shareStatement},#{commentabled},#{published},#{createTime},
         #{updateTime},#{typeId},#{tagIds},#{userId},#{description});
     </insert>
 
@@ -49,18 +48,13 @@
         insert into blog.t_blog_tags (tag_id, blog_id) values (#{tagId},#{blogId});
     </insert>
 
-    <select id="searchByTitleOrTypeOrRecommend" parameterType="com.gao.dto.SearchBlog" resultMap="blog">
+    <select id="searchByTitleOrTypeOrRecommend" parameterType="com.gao.dto.BlogVO" resultMap="blog">
         <bind name="pattern" value="'%' + title + '%'" />
         select b.id,b.title,b.update_time,b.recommend,b.type_id,t.id,t.name from blog.t_blog b ,blog.t_type t
         <where>
-            <if test="1 == 1">
                 b.type_id = t.id
-            </if>
             <if test="typeId != null">
                 and b.type_id = #{typeId}
-            </if>
-            <if test="recommend2 != null">
-                and b.recommend = #{recommend2}
             </if>
             <if test="title != null">
                 and b.title like #{pattern}
@@ -78,11 +72,11 @@
     <update id="updateBlog" parameterType="com.gao.dto.ShowBlog">
         update blog.t_blog set published = #{published},flag = #{flag} ,
         title = #{title}, content = #{content}, type_id = #{typeId}, tag_ids = #{tagIds},
-        first_picture = #{firstPicture} , description = #{description} , recommend = #{recommend} ,
+        first_picture = #{firstPicture} , description = #{description} ,
         share_statement = #{shareStatement}, appreciation = #{appreciation},
         commentabled = #{commentabled} ,update_time = #{updateTime} where id = #{id};
     </update>
-    
+
 
     <resultMap id="firstPageBlog" type="com.gao.dto.FirstPageBlog">
         <id property="id" column="id"/>

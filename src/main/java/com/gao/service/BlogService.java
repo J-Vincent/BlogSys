@@ -1,8 +1,11 @@
 package com.gao.service;
 
-import com.gao.dto.*;
+import com.gao.dto.QueryRequest;
+import com.gao.dto.DetailedBlog;
+import com.gao.dto.FirstPageBlog;
+import com.gao.dto.BlogVO;
+import com.gao.dto.ShowBlog;
 import com.gao.pojo.Blog;
-import com.gao.pojo.Tag;
 
 import java.util.List;
 
@@ -10,7 +13,7 @@ public interface BlogService {
 
     ShowBlog getBlogById(Long id);
 
-    List<BlogQuery> getAllBlog();
+    List<QueryRequest> getAllBlog();
 
     int saveBlog(Blog blog);
 
@@ -18,14 +21,9 @@ public interface BlogService {
 
     int deleteBlog(Long id);
 
-    List<BlogQuery> getBlogBySearch(SearchBlog searchBlog);
-
-    //修改recommend,因为recommend从前台接收只能接收字符串，但数据库中的Integer类型，所以转一下
-    void transformRecommend(SearchBlog searchBlog);
+    List<QueryRequest> getBlogBySearch(BlogVO searchBlog);
 
     List<FirstPageBlog> getAllFirstPageBlog();
-
-    List<RecommendBlog> getRecommendedBlog();
 
     List<FirstPageBlog> getSearchBlog(String query);
 

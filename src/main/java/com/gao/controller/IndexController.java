@@ -44,12 +44,10 @@ public class IndexController {
         List<FirstPageBlog> allFirstPageBlog = blogService.getAllFirstPageBlog();
         List<Type> allType = typeService.getAllType();
         List<Tag> allTag = tagService.getAllTag();
-        List<RecommendBlog> recommendedBlog = blogService.getRecommendedBlog();
         PageInfo<FirstPageBlog> pageInfo = new PageInfo<>(allFirstPageBlog);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("tags", allTag);
         model.addAttribute("types", allType);
-        model.addAttribute("recommendedBlogs", recommendedBlog);
         return "index";
     }
 

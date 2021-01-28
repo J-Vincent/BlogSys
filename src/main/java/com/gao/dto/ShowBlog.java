@@ -26,7 +26,6 @@ public class ShowBlog {
     private String tagIds;
     private String firstPicture;
     private String description;
-    private boolean recommend;
     private boolean shareStatement;
     private boolean appreciation;
     private boolean commentabled;

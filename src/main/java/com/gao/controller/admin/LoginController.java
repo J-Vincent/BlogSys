@@ -32,12 +32,10 @@ public class LoginController {
                         RedirectAttributes attributes) {
         User user = userService.checkUser(username, password);
         if (user != null) {
-            //不要把密码传到前端页面
             user.setPassword(null);
             session.setAttribute("user", user);
             return "admin/index";
         } else {
-            //因为这是redirect到index页面，如果用model会得不到这个数据
             attributes.addFlashAttribute("message", "用户名和密码错误");
             return "redirect:/admin";
         }

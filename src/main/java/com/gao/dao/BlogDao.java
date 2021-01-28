@@ -13,7 +13,7 @@ public interface BlogDao {
 
     ShowBlog getBlogById(Long id);
 
-    List<BlogQuery> getAllBlogQuery();
+    List<QueryRequest> getAllBlogQuery();
 
     int saveBlog(Blog blog);
 
@@ -25,7 +25,7 @@ public interface BlogDao {
 
     int deleteBlogAndTag(Long blogId);
 
-    List<BlogQuery> searchByTitleOrTypeOrRecommend(SearchBlog searchBlog);
+    List<QueryRequest> searchByTitleOrTypeOrRecommend(BlogVO searchBlog);
 
     List<FirstPageBlog> getFirstPageBlog();
 

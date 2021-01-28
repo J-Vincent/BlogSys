@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlogQuery {
+public class QueryRequest {
     private Long id;
     private String title;
     private Date updateTime;

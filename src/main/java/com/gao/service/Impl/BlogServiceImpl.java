@@ -10,9 +10,9 @@ import com.gao.util.MarkdownUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -26,8 +26,8 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogQuery> getAllBlog() {
-        List<BlogQuery> allBlogQuery = blogDao.getAllBlogQuery();
+    public List<QueryRequest> getAllBlog() {
+        List<QueryRequest> allBlogQuery = blogDao.getAllBlogQuery();
         return allBlogQuery;
     }
 
@@ -59,15 +59,8 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogQuery> getBlogBySearch(SearchBlog searchBlog) {
+    public List<QueryRequest> getBlogBySearch(BlogVO searchBlog) {
         return blogDao.searchByTitleOrTypeOrRecommend(searchBlog);
-    }
-
-    @Override
-    public void transformRecommend(SearchBlog searchBlog) {
-        if (!"".equals(searchBlog.getRecommend()) && null != searchBlog.getRecommend()) {
-            searchBlog.setRecommend2(1);
-        }
     }
 
     @Override
@@ -77,18 +70,6 @@ public class BlogServiceImpl implements BlogService {
 
 
     @Override
-    public List<RecommendBlog> getRecommendedBlog() {
-        List<RecommendBlog> allRecommendBlog = blogDao.getAllRecommendBlog();
-        List<RecommendBlog> allRecommendedBlog = new ArrayList<>();
-        for (RecommendBlog recommendBlog : allRecommendBlog) {
-            if (recommendBlog.isRecommend() == true) {
-                allRecommendedBlog.add(recommendBlog);
-            }
-        }
-        return allRecommendedBlog;
-    }
-
-    @Override
     public List<FirstPageBlog> getSearchBlog(String query) {
         return blogDao.getSearchBlog(query);
     }
@@ -96,7 +77,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public DetailedBlog getDetailedBlog(Long id) {
         DetailedBlog detailedBlog = blogDao.getDetailedBlog(id);
-        if (detailedBlog == null) {
+        if (Objects.isNull(detailedBlog)){
             throw new NotFountException("该博客不存在");
         }
         String content = detailedBlog.getContent();

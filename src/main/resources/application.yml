@@ -11,6 +11,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
 
+
     initialSize: 5
     minIdle: 5
     maxActive: 20
@@ -34,12 +35,6 @@ spring:
       cluster-nodes: localhost:9300
       cluster-name: elasticsearch  # es 集群的名称
 
-#  elasticsearch:
-#    rest:
-#      uris: http://localhost:9200
-#com.high:
-#  connectURL: localhost:9200
-
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.gao.pojo
@@ -52,6 +47,7 @@ pagehelper:
   supportMethodsArguments: true
   params: count=countSql
 
+
 comment.avatar: /image/1.jpg
 server:
-  port: 8888
+  port: 8081

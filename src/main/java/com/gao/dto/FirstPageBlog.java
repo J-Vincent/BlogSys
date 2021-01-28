@@ -10,7 +10,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FirstPageBlog {
-    //Blog
     private Long id;
     private String title;
     private String firstPicture;
@@ -18,10 +17,8 @@ public class FirstPageBlog {
     private Date updateTime;
     private String description;
 
-    //Type
     private String typeName;
 
-    //User
     private String nickname;
     private String avatar;
 }

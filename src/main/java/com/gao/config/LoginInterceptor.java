@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter implements WebMvcConfigurer {
 
-    //preHandle预处理
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,

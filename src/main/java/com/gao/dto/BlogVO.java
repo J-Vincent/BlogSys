@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchBlog {
+public class BlogVO {
     private String title;
     private Long typeId;
-    private String recommend;
-    private Integer recommend2;
 }

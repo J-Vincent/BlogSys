@@ -1,7 +1,7 @@
 package com.gao.controller.admin;
 
-import com.gao.dto.BlogQuery;
-import com.gao.dto.SearchBlog;
+import com.gao.dto.QueryRequest;
+import com.gao.dto.BlogVO;
 import com.gao.dto.ShowBlog;
 import com.gao.pojo.Blog;
 import com.gao.pojo.Tag;
@@ -30,6 +30,7 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+
     @Autowired
     private TypeService typeService;
 
@@ -41,17 +42,19 @@ public class BlogController {
         model.addAttribute("tags", tagService.getAdminTag());
     }
 
+    //显示
     @GetMapping("/blogs")
     public String list(Model model, @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
         PageHelper.startPage(pageNum, 3);
-        List<BlogQuery> allBlog = blogService.getAllBlog();
-        PageInfo<BlogQuery> pageInfo = new PageInfo<>(allBlog);
+        List<QueryRequest> allBlog = blogService.getAllBlog();
+        PageInfo<QueryRequest> pageInfo = new PageInfo<>(allBlog);
         model.addAttribute("pageInfo", pageInfo);
         setTypeAndTag(model);
         return "admin/blogs";
     }
 
 
+    //删除
     @GetMapping("/blogs/{id}/delete")
     public String delete(@PathVariable Long id,RedirectAttributes attributes) {
         blogService.deleteBlog(id);
@@ -59,18 +62,24 @@ public class BlogController {
         return "redirect:/admin/blogs";
     }
 
+    //去新增页面
     @GetMapping("/blogs/input")
     public String toAdd(Model model) {
         setTypeAndTag(model);
         return "admin/blogs-input";
     }
 
+    //新增
     @PostMapping("/blogs")
     public String add(Blog blog, RedirectAttributes attributes, HttpSession session) {
         blog.setUser((User) session.getAttribute("user"));
+        //设置blog的type
         blog.setType(typeService.getType(blog.getType().getId()));
+        //设置blog中typeId属性
         blog.setTypeId(blog.getType().getId());
+        //给blog中的List<Tag>赋值
         blog.setTags(tagService.getTagByString(blog.getTagIds()));
+        //设置用户id
         blog.setUserId(blog.getUser().getId());
         blogService.saveBlog(blog);
         attributes.addFlashAttribute("message", "新增成功");
@@ -79,12 +88,13 @@ public class BlogController {
 
 
     @PostMapping("/blogs/search")
-    public String search(SearchBlog searchBlog,Model model,
-                       @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
-        blogService.transformRecommend(searchBlog);
-        List<BlogQuery> blogBySearch = blogService.getBlogBySearch(searchBlog);
+    public String search(BlogVO searchBlog, Model model,
+                         @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
+
+
+        List<QueryRequest> blogBySearch = blogService.getBlogBySearch(searchBlog);
         PageHelper.startPage(pageNum, 3);
-        PageInfo<BlogQuery> pageInfo = new PageInfo<>(blogBySearch);
+        PageInfo<QueryRequest> pageInfo = new PageInfo<>(blogBySearch);
         model.addAttribute("pageInfo", pageInfo);
         setTypeAndTag(model);
         model.addAttribute("message", "查询成功");
