@@ -11,23 +11,18 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 
-//被spring托管
 @Component
-//aop切面
 @Aspect
 public class LogAspect {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    //这个注解表示一个切面,execution()表示拦截哪些
-    //拦截controller下所有类和所有方法
     @Pointcut("execution(* com.gao.controller.*.*(..))")
     public void log() {
 
     }
 
 
-    //横切，在log()之前执行
     @Before("log()")
     public void doBefore(JoinPoint joinPoint) {
         //这个attributes可以获得url和ip
@@ -45,10 +40,8 @@ public class LogAspect {
 
     @After("log()")
     public void doAfter() {
-        //logger.info("-------------After----------");
     }
 
-    //捕获返回的内容
     @AfterReturning(returning = "result",pointcut = "log()")
     public void doAfterReturn(Object result) {
         logger.info("Result: {}" + result);

@@ -4,6 +4,7 @@ import com.gao.pojo.Comment;
 import com.gao.pojo.User;
 import com.gao.service.BlogService;
 import com.gao.service.CommentService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class CommentController {
@@ -38,13 +40,11 @@ public class CommentController {
     @PostMapping("/comments")
     public String post(Comment comment, HttpSession session) {
         Long blogId = comment.getBlogId();
-        //set Blog
         comment.setBlog(blogService.getDetailedBlog(blogId));
         User user = (User) session.getAttribute("user");
         if (user != null) {
             comment.setAvatar(user.getAvatar());
         } else {
-            //设置头像
             comment.setAvatar(avatar);
         }
 

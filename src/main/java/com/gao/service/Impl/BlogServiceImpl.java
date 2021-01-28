@@ -36,7 +36,6 @@ public class BlogServiceImpl implements BlogService {
         blog.setCreateTime(new Date());
         blog.setUpdateTime(new Date());
         blog.setViews(0);
-        //将标签的数据存到t_blogs_tag表中
         List<Tag> tags = blog.getTags();
         BlogAndTag blogAndTag = null;
         for (Tag tag : tags) {

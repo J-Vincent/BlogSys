@@ -3,7 +3,6 @@ package com.gao.controller;
 import com.gao.dto.DetailedBlog;
 import com.gao.dto.FirstPageBlog;
 import com.gao.dto.RecommendBlog;
-import com.gao.pojo.Blog;
 import com.gao.pojo.Comment;
 import com.gao.pojo.Tag;
 import com.gao.pojo.Type;
@@ -13,6 +12,7 @@ import com.gao.service.TagService;
 import com.gao.service.TypeService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,18 +39,10 @@ public class IndexController {
     private CommentService commentService;
 
     @GetMapping("/")
-    public String index(Model model, @RequestParam(defaultValue = "1",value = "pageNum") Integer pageNum) {
+    public String index(Model model, @RequestParam(defaultValue = "1", value = "pageNum") Integer pageNum) {
         PageHelper.startPage(pageNum, 6);
         List<FirstPageBlog> allFirstPageBlog = blogService.getAllFirstPageBlog();
-        /*System.out.println("num:"+allFirstPageBlog.size());
-        for (FirstPageBlog firstPageBlog : allFirstPageBlog) {
-            System.out.println(firstPageBlog);
-        }*/
         List<Type> allType = typeService.getAllType();
-        /*System.out.println("num:" + allType.size());
-        for (Type type : allType) {
-            System.out.println(type);
-        }*/
         List<Tag> allTag = tagService.getAllTag();
         List<RecommendBlog> recommendedBlog = blogService.getRecommendedBlog();
         PageInfo<FirstPageBlog> pageInfo = new PageInfo<>(allFirstPageBlog);
@@ -67,9 +59,6 @@ public class IndexController {
                          @RequestParam String query) {
         PageHelper.startPage(pageNum, 100);
         List<FirstPageBlog> searchBlog = blogService.getSearchBlog(query);
-        /*for (FirstPageBlog firstPageBlog : searchBlog) {
-            System.out.println(firstPageBlog);
-        }*/
         PageInfo<FirstPageBlog> pageInfo = new PageInfo<>(searchBlog);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("query", query);
